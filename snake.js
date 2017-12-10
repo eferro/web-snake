@@ -28,23 +28,18 @@ document.addEventListener("keydown", direction);
 
 
 function direction(){
-    if (event.keyCode == 37) {
-        console.log("PRESS LEFT");
+    if (event.keyCode == 37 && d != "RIGHT") {
         d = "LEFT";
-    } else if (event.keyCode == 38) {
-        console.log("PRESS UP");
+    } else if (event.keyCode == 38 && d != "DOWN") {
         d = "UP";
-    } else if (event.keyCode == 39) {
-        console.log("PRESS RIGHT");
+    } else if (event.keyCode == 39 && d != "LEFT") {
         d = "RIGHT";
-    } else if (event.keyCode == 40) {
-        console.log("PRESS DOWN");
+    } else if (event.keyCode == 40 && d != "UP") {
         d = "DOWN";
     }
 }
 
 function draw(){
-    console.log("EFA1 " + d);
     ctx.drawImage(groundImg, 0, 0);
 
     for (let i=0; i < snake.length; i++){
@@ -58,13 +53,20 @@ function draw(){
     let snakeX = snake[0].x;
     let snakeY = snake[0].y;
 
-    console.log("EFA2 " + d);
     if (d == "LEFT") snakeX -= box;
     if (d == "RIGHT") snakeX += box;
     if (d == "UP") snakeY -= box;
     if (d == "DOWN") snakeY += box;
 
-    snake.pop();
+    if (snakeX == food.x && snakeY == food.y) {
+        score ++;
+        food = {
+            x : Math.floor(Math.random()*17+1) * box,
+            y : Math.floor(Math.random()*15+3) * box
+        }
+    } else {
+        snake.pop();
+    }
 
     let newHead = {
         x: snakeX,
@@ -77,7 +79,6 @@ function draw(){
     ctx.fillStyle = "white";
     ctx.font = "45px Changa one";
     ctx.fillText(score, 2*box, 1.6*box);
-    console.log("EFA3 " + d);
 }
 
-let game = setInterval(draw, 200);
+let game = setInterval(draw, 100);
