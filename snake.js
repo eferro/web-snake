@@ -39,6 +39,15 @@ function direction(){
     }
 }
 
+function collision(newHead, snake){
+    for(let i = 0; i < snake.length; i ++){
+        if (newHead.x == snake[i].x && newHead.y == snake[i].y){
+            return true;
+        }
+    }
+    return false;
+}
+
 function draw(){
     ctx.drawImage(groundImg, 0, 0);
 
@@ -72,6 +81,12 @@ function draw(){
         x: snakeX,
         y: snakeY
     }
+
+    if (snakeX < box || snakeX > 17*box || snakeY < 3*box ||
+        snakeY > 17*box || collision(newHead, snake)) {
+        clearInterval(game);
+    }
+
 
     snake.unshift(newHead);
 
